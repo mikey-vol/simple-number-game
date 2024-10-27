@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+        .game-container {
+            background-color: #fff;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #4a90e2;
+        }
+        button {
+            background-color: #4a90e2;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        #message {
+            margin-top: 15px;
+            color: #333;
+            font-weight: bold;
+        }
+        #retryCount {
+            font-weight: bold;
+            color: #4a90e2;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h2>Number Guessing Game</h2>
+        <input type="text" id="guessInput" placeholder="Enter a number between 1 and 100">
+        <button onclick="checkGuess()">Guess</button>
+        <p id="message"></p>
+        <p>Number of Retries: <span id="retryCount">0</span></p>
+    </div>
+
+    <script>
+        let generatedNumber = Math.floor(Math.random() * 100) + 1;
+        
+        let retries = 0;
+        let guessedNumbers = []; 
+
+        function checkGuess() {
+            let userInput = document.getElementById("guessInput").value;
+            let guess = parseInt(userInput);
+            let message = document.getElementById("message");
+            let retryCount = document.getElementById("retryCount");
+
+            if (userInput === "") {
+                message.textContent = "Please enter a number first.";
+                return;
+            }
+
+            if (isNaN(guess)) {
+                message.textContent = "You have entered an invalid number.";
+                return;
+            }
+
+            if (guessedNumbers.includes(guess)) {
+                message.textContent = "You have already guessed this number, please choose another number.";
+                return;
+            }
+
+            guessedNumbers.push(guess);
+
+            retries++;
+            retryCount.textContent = retries;
+
+            if (guess < generatedNumber) {
+                message.textContent = "Your number is less than the generated number.";
+            } else if (guess > generatedNumber) {
+                message.textContent = "Your number is greater than the generated number.";
+            } else {
+                message.textContent = "You have guessed the correct number!";
+            }
+        }
+    </script>
+</body>
+</html>
